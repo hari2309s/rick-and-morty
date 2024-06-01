@@ -10,7 +10,7 @@ export interface ILocation {
     created: string;
 }
 
-export interface ILocationResponsePayload {
+export interface ILocationsResponsePayload {
     info: IInfo;
     results: Array<ILocation>;
 }

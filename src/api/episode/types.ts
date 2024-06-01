@@ -10,7 +10,7 @@ export interface IEpisode {
     created: string;
 }
 
-export interface IEpisodeResponsePayload {
+export interface IEpisodesResponsePayload {
     info: IInfo;
     results: Array<IEpisode>;
 }

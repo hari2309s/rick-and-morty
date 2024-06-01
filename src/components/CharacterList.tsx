@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    getCharacter,
+    getCharacters,
     selectCharacters,
-} from '../store/features/character/characterSlice';
+} from '../store/features/character/charactersSlice';
 import { ICharacter } from '../api/character/types';
 import Character from './Character';
 import { AppDispatch } from '../store';
@@ -15,7 +15,7 @@ const List = () => {
     const characters: ICharacter[] = useSelector(selectCharacters);
 
     useEffect(() => {
-        dispatch(getCharacter());
+        dispatch(getCharacters());
     }, []);
 
     return (

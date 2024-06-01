@@ -33,7 +33,7 @@ export interface ICharacter {
     created: string;
 }
 
-export interface ICharacterResponsePayload {
+export interface ICharactersResponsePayload {
     info: IInfo;
     results: Array<ICharacter>;
 }

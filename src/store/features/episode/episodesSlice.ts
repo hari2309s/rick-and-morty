@@ -4,8 +4,8 @@ import {
     createAsyncThunk,
     createSlice,
 } from '@reduxjs/toolkit';
-import { getEpisode as getEpisodeAPI } from '../../../api/episode';
-import { IEpisode, IEpisodeResponsePayload } from '../../../api/episode/types';
+import { getEpisodes as getEpisodesAPI } from '../../../api/episode';
+import { IEpisode, IEpisodesResponsePayload } from '../../../api/episode/types';
 import { IInfo } from '../../../api/character/types';
 import { RootState } from '../..';
 
@@ -23,12 +23,12 @@ const initialState: EpisodeState = {
     error: null,
 };
 
-export const getEpisode = createAsyncThunk(
-    'episode/getEpisode',
+export const getEpisodes = createAsyncThunk(
+    'episodes/getEpisodes',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await getEpisodeAPI().then(data => data);
-            return response as IEpisodeResponsePayload;
+            const response = await getEpisodesAPI().then(data => data);
+            return response as IEpisodesResponsePayload;
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -36,27 +36,27 @@ export const getEpisode = createAsyncThunk(
 );
 
 export const episodeSlice = createSlice({
-    name: 'episode',
+    name: 'episodes',
     initialState,
     reducers: {},
     extraReducers: builder => {
         builder
             .addCase(
-                getEpisode.fulfilled,
-                (state, action: PayloadAction<IEpisodeResponsePayload>) => {
+                getEpisodes.fulfilled,
+                (state, action: PayloadAction<IEpisodesResponsePayload>) => {
                     state.episodes = action.payload.results;
                     state.paginationInfo = action.payload.info;
                     state.loading = false;
                     state.error = null;
                 },
             )
-            .addCase(getEpisode.pending, state => {
+            .addCase(getEpisodes.pending, state => {
                 state.episodes = [];
                 state.paginationInfo = null;
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getEpisode.rejected, (state, action) => {
+            .addCase(getEpisodes.rejected, (state, action) => {
                 state.episodes = [];
                 state.paginationInfo = null;
                 state.loading = false;
@@ -65,11 +65,11 @@ export const episodeSlice = createSlice({
     },
 });
 
-export const selectEpisodes = (state: RootState) => state.episode.episodes;
+export const selectEpisodes = (state: RootState) => state.episodes.episodes;
 export const selectEpisodesPaginationInfo = (state: RootState) =>
-    state.episode.paginationInfo;
+    state.episodes.paginationInfo;
 export const selectEpisodesLoading = (state: RootState) =>
-    state.episode.loading;
-export const selectEpisodesError = (state: RootState) => state.episode.error;
+    state.episodes.loading;
+export const selectEpisodesError = (state: RootState) => state.episodes.error;
 
 export default episodeSlice.reducer;

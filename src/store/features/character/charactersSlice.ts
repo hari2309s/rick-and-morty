@@ -4,62 +4,62 @@ import {
     createAsyncThunk,
     createSlice,
 } from '@reduxjs/toolkit';
-import { getCharacter as getCharacterAPI } from '../../../api/character/index';
+import { getCharacters as getCharactersAPI } from '../../../api/character/index';
 import {
     ICharacter,
-    ICharacterResponsePayload,
+    ICharactersResponsePayload,
     IInfo,
 } from '../../../api/character/types';
 import { RootState } from '../..';
 
-interface CharacterState {
+interface CharactersState {
     characters: ICharacter[];
     paginationInfo: IInfo | null;
     loading: boolean;
     error: Error | SerializedError | null;
 }
 
-const initialState: CharacterState = {
+const initialState: CharactersState = {
     characters: [],
     paginationInfo: null,
     loading: false,
     error: null,
 };
 
-export const getCharacter = createAsyncThunk(
-    'character/getCharacter',
+export const getCharacters = createAsyncThunk(
+    'characters/getCharacters',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await getCharacterAPI().then(data => data);
-            return response as ICharacterResponsePayload;
+            const response = await getCharactersAPI().then(data => data);
+            return response as ICharactersResponsePayload;
         } catch (error) {
             return rejectWithValue(error);
         }
     },
 );
 
-export const characterSlice = createSlice({
-    name: 'character',
+export const charactersSlice = createSlice({
+    name: 'characters',
     initialState,
     reducers: {},
     extraReducers: builder => {
         builder
             .addCase(
-                getCharacter.fulfilled,
-                (state, action: PayloadAction<ICharacterResponsePayload>) => {
+                getCharacters.fulfilled,
+                (state, action: PayloadAction<ICharactersResponsePayload>) => {
                     state.characters = action.payload.results;
                     state.paginationInfo = action.payload.info;
                     state.loading = false;
                     state.error = null;
                 },
             )
-            .addCase(getCharacter.pending, state => {
+            .addCase(getCharacters.pending, state => {
                 state.loading = true;
                 state.characters = [];
                 state.paginationInfo = null;
                 state.error = null;
             })
-            .addCase(getCharacter.rejected, (state, action) => {
+            .addCase(getCharacters.rejected, (state, action) => {
                 state.characters = [];
                 state.paginationInfo = null;
                 state.loading = false;
@@ -69,12 +69,12 @@ export const characterSlice = createSlice({
 });
 
 export const selectCharacters = (state: RootState) =>
-    state.character.characters;
+    state.characters.characters;
 export const selectCharactersPaginationInfo = (state: RootState) =>
-    state.character.paginationInfo;
+    state.characters.paginationInfo;
 export const selectCharactersLoading = (state: RootState) =>
-    state.character.loading;
+    state.characters.loading;
 export const selectCharactersError = (state: RootState) =>
-    state.character.error;
+    state.characters.error;
 
-export default characterSlice.reducer;
+export default charactersSlice.reducer;

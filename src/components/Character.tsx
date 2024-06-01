@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Card, Typography } from '@mui/joy';
+import { AspectRatio, Box, Button, Card, Typography } from '@mui/joy';
 import React from 'react';
 import { CharacterStatus, ICharacter } from '../api/character/types';
 
@@ -7,11 +7,29 @@ interface CharacterProps {
 }
 
 const Character = ({ character }: CharacterProps) => {
+    const handleCharacterClick = () => {
+        console.log('eeeee ', character.id);
+    };
+
     return (
         <Card sx={{ width: '300px', height: '350px', margin: '20px' }}>
             <Typography
                 level="title-lg"
-                sx={{ alignSelf: 'start', color: '#606c38' }}
+                sx={{
+                    alignSelf: 'start',
+                    color: '#606c38',
+                    outline: 'none',
+                    border: 'none',
+                    background: 'none',
+                    '&:hover': {
+                        cursor: 'pointer',
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                    },
+                }}
+                component={Button}
+                onClick={handleCharacterClick}
             >
                 {character.name}
             </Typography>
