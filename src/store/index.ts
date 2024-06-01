@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import characterReducer from './features/character/characterSlice';
 import episodeReducer from './features/episode/episodeSlice';
+import locationReducer from './features/location/locationSlice';
 
 export const store = configureStore({
     reducer: {
         character: characterReducer,
         episode: episodeReducer,
+        location: locationReducer,
     },
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Typography } from '@mui/joy';
-import List from './components/List';
+import CharacterList from './components/CharacterList';
 
 function App() {
     return (
@@ -16,7 +16,7 @@ function App() {
                 >
                     Characters
                 </Typography>
-                <List />
+                <CharacterList />
             </div>
         </div>
     );
