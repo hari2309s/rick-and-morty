@@ -6,14 +6,15 @@ import {
 } from '@reduxjs/toolkit';
 import { getCharacter as getCharacterAPI } from '../../../api/character/index';
 import {
-    Character,
+    ICharacter,
     ICharacterResponsePayload,
-    Info,
+    IInfo,
 } from '../../../api/character/types';
+import { RootState } from '../..';
 
 interface CharacterState {
-    characters: Character[];
-    paginationInfo: Info | null;
+    characters: ICharacter[];
+    paginationInfo: IInfo | null;
     loading: boolean;
     error: Error | SerializedError | null;
 }
@@ -37,7 +38,7 @@ export const getCharacter = createAsyncThunk(
     },
 );
 
-export const CharacterSlice = createSlice({
+export const characterSlice = createSlice({
     name: 'character',
     initialState,
     reducers: {},
@@ -66,3 +67,14 @@ export const CharacterSlice = createSlice({
             });
     },
 });
+
+export const selectCharacters = (state: RootState) =>
+    state.character.characters;
+export const selectCharactersPaginationInfo = (state: RootState) =>
+    state.character.paginationInfo;
+export const selectCharactersLoading = (state: RootState) =>
+    state.character.loading;
+export const selectCharactersError = (state: RootState) =>
+    state.character.error;
+
+export default characterSlice.reducer;

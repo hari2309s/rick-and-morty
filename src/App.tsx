@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Typography } from '@mui/joy';
+import List from './components/List';
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
+            <Typography level="h2" sx={{ color: '#606c38', marginTop: '30px' }}>
+                Rick and Morty
+            </Typography>
+            <div>
+                <Typography
+                    level="title-lg"
+                    sx={{ color: '#606c38', margin: '20px' }}
                 >
-                    Learn React
-                </a>
-            </header>
+                    Characters
+                </Typography>
+                <List />
+            </div>
         </div>
     );
 }

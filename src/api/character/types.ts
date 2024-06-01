@@ -11,14 +11,14 @@ export interface ICharacterOrigin {
 
 export interface ILastKnownLocation extends ICharacterOrigin {}
 
-export interface Info {
+export interface IInfo {
     count: number;
     pages: number;
-    next: string;
+    next: string | null;
     prev: string | null;
 }
 
-export interface Character {
+export interface ICharacter {
     id: number;
     name: string;
     status: CharacterStatus;
@@ -34,6 +34,6 @@ export interface Character {
 }
 
 export interface ICharacterResponsePayload {
-    info: Info;
-    results: Array<Character>;
+    info: IInfo;
+    results: Array<ICharacter>;
 }
