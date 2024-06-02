@@ -6,3 +6,9 @@ export const getCharacters = async (): Promise<ICharactersResponsePayload> => {
         .then(response => response.json())
         .catch(error => Promise.reject(error));
 };
+
+export const getCharacter = async (id: number) => {
+    return await fetch(`${API_BASE_URL}/character/${id}`)
+        .then(data => data.json())
+        .catch(error => Promise.reject(error));
+};

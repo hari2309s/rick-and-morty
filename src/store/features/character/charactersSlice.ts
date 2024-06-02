@@ -11,9 +11,11 @@ import {
     IInfo,
 } from '../../../api/character/types';
 import { RootState } from '../..';
+import { getCharacter as getCharacterAPI } from '../../../api/character';
 
 interface CharactersState {
     characters: ICharacter[];
+    selectedCharacter: ICharacter | null;
     paginationInfo: IInfo | null;
     loading: boolean;
     error: Error | SerializedError | null;
@@ -21,6 +23,7 @@ interface CharactersState {
 
 const initialState: CharactersState = {
     characters: [],
+    selectedCharacter: null,
     paginationInfo: null,
     loading: false,
     error: null,
@@ -32,6 +35,18 @@ export const getCharacters = createAsyncThunk(
         try {
             const response = await getCharactersAPI().then(data => data);
             return response as ICharactersResponsePayload;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    },
+);
+
+export const getCharacter = createAsyncThunk(
+    'characters/getCharacter',
+    async (id: number, { rejectWithValue }) => {
+        try {
+            const response = await getCharacterAPI(id).then(data => data);
+            return response as ICharacter;
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -64,6 +79,24 @@ export const charactersSlice = createSlice({
                 state.paginationInfo = null;
                 state.loading = false;
                 state.error = action.error;
+            })
+            .addCase(
+                getCharacter.fulfilled,
+                (state, action: PayloadAction<ICharacter>) => {
+                    state.selectedCharacter = action.payload;
+                    state.loading = false;
+                    state.error = null;
+                },
+            )
+            .addCase(getCharacter.pending, state => {
+                state.selectedCharacter = null;
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getCharacter.rejected, (state, action) => {
+                state.selectedCharacter = null;
+                state.loading = false;
+                state.error = action.error;
             });
     },
 });
@@ -75,6 +108,13 @@ export const selectCharactersPaginationInfo = (state: RootState) =>
 export const selectCharactersLoading = (state: RootState) =>
     state.characters.loading;
 export const selectCharactersError = (state: RootState) =>
+    state.characters.error;
+
+export const selectSelectedCharacter = (state: RootState) =>
+    state.characters.selectedCharacter;
+export const selectSelectedCharacterLoading = (state: RootState) =>
+    state.characters.loading;
+export const selectSelectedCharacterError = (state: RootState) =>
     state.characters.error;
 
 export default charactersSlice.reducer;
