@@ -31,9 +31,9 @@ const initialState: CharactersState = {
 
 export const getCharacters = createAsyncThunk(
     'characters/getCharacters',
-    async (_, { rejectWithValue }) => {
+    async (page: number | undefined, { rejectWithValue }) => {
         try {
-            const response = await getCharactersAPI().then(data => data);
+            const response = await getCharactersAPI(page).then(data => data);
             return response as ICharactersResponsePayload;
         } catch (error) {
             return rejectWithValue(error);

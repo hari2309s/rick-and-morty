@@ -53,8 +53,8 @@ const Character = ({ character }: CharacterProps) => {
                                 character.status === CharacterStatus.ALIVE
                                     ? 'green'
                                     : character.status === CharacterStatus.DEAD
-                                        ? 'red'
-                                        : 'black',
+                                      ? 'red'
+                                      : 'black',
                             alignSelf: 'start',
                         }}
                     >
